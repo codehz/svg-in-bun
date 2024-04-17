@@ -1,0 +1,25 @@
+{
+  "name": "svg-in-bun",
+  "module": "index.tsx",
+  "type": "module",
+  "version": "0.0.1",
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/murmurhash-js": "^1.0.6",
+    "@types/react": "^18.2.79",
+    "@types/react-dom": "^18.2.25",
+    "prettier": "^3.2.5"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0",
+    "react": "*",
+    "react-dom": "*"
+  },
+  "dependencies": {
+    "@types/vhtml": "^2.2.9",
+    "fast-json-stable-stringify": "^2.1.0",
+    "murmurhash-js": "^1.0.0",
+    "vhtml": "^2.2.0"
+  },
+  "scripts": {}
+}
