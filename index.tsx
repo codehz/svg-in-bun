@@ -6,6 +6,20 @@ export * from "./helpers/point";
 
 type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };
 
+export function animateMotion(
+  opts: ComponentProps<"animateMotion">,
+  ...hrefs: string[]
+) {
+  const id = generateId({ animateMotion: { opts } });
+  return generateDefinition(
+    id,
+    <animateMotion {...opts} id={id}>
+      {hrefs.map((href) => (
+        <mpath href={href} />
+      ))}
+    </animateMotion>
+  );
+}
 export function path(path: string, opts?: ComponentProps<"path">) {
   const id = generateId({ path: { path, opts } });
   return generateDefinition(id, <path {...opts} id={id} d={path} />);
@@ -92,3 +106,22 @@ export const pattern = generateStdSvgElement("pattern")<
 >;
 export const linearGradient = generateStdSvgElement("linearGradient");
 export const radialGradient = generateStdSvgElement("radialGradient");
+
+function generateSingleSvgElement<N extends keyof JSX.IntrinsicElements>(
+  Name: N
+) {
+  return function StdSvgElement<R extends keyof ComponentProps<N> = never>(
+    opts: WithRequired<ComponentProps<N>, R>
+  ) {
+    const id = generateId({ [Name]: { opts } });
+
+    return generateDefinition(
+      id,
+      // @ts-ignore
+      <Name {...opts} id={id} />
+    );
+  };
+}
+
+export const animate = generateSingleSvgElement("animate");
+export const animateTransform = generateSingleSvgElement("animateTransform");
