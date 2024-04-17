@@ -1,6 +1,7 @@
-import type { ComponentProps } from "react";
+import { type ComponentProps } from "react";
 import { generateDefinition } from "./helpers/generateDefinition";
 import { generateId } from "./helpers/generateId";
+import { inlineDefinition } from "./helpers/inlineDefinition";
 import { pointsToString, type Point } from "./helpers/point";
 export * from "./helpers/point";
 
@@ -77,11 +78,13 @@ function generateStdSvgElement<N extends keyof JSX.IntrinsicElements>(Name: N) {
     return generateDefinition(
       id,
       // @ts-ignore
-      <Name {...opts} id={id}>
-        {hrefs.map((href, idx) => (
-          <use key={idx} href={href} />
-        ))}
-      </Name>
+      <Name
+        {...opts}
+        id={id}
+        dangerouslySetInnerHTML={{
+          __html: hrefs.map(inlineDefinition).join(""),
+        }}
+      />
     );
   };
 }
@@ -123,5 +126,6 @@ function generateSingleSvgElement<N extends keyof JSX.IntrinsicElements>(
   };
 }
 
+export const use = generateSingleSvgElement("use");
 export const animate = generateSingleSvgElement("animate");
 export const animateTransform = generateSingleSvgElement("animateTransform");
